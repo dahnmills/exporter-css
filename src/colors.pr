@@ -1,15 +1,7 @@
-{*
-
-Generate all color tokens as named variables.
-Tokens are named by their group path and then name, 
-and their value rendered using `rendered-color` blueprint
-
-*}
 :root {
-{[ let brand = ds.currentBrand() /]}
-{[ for token in ds.tokensByType("Color", brand.id) ]}
-    {[ inject "rendered-token-var" context token /]}
-    
-
-{[/]}
+    {[ let brand = ds.currentBrand() /]}
+    {[ for token in ds.tokensByType("Color", brand.id) ]}
+        {[ let tokenName = readableVariableName(token, token.groupPath(), "") /]}
+        --{{ tokenName }}: {[ inject "rendered-color" context token /]};
+    {[/]}
 }
