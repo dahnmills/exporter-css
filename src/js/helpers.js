@@ -67,7 +67,11 @@
             const t = [...r.path];
             (r.isRoot && r.isNonVirtualRoot) || t.push(r.name), t.push(e.name), n && n.length > 0 && t.unshift(n);
             let o = t.join("-");
-            return (o = o.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (e, r) => `-${r.toLowerCase()}`)), (o = o.replace(/[^a-zA-Z0-9_-]/g, "-")), /^\d/.test(o) && (o = "_" + o), o;
+            o = o.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (e, r) => `-${r.toLowerCase()}`);
+            o = o.replace(/[^a-zA-Z0-9_-]/g, "-");
+            o = o.replace(/^color-/, ""); // Remove "color" prefix
+            /^\d/.test(o) && (o = "_" + o);
+            return o;
         }),
             Pulsar.registerFunction("findAliases", function e(r, n) {
                 let t = n.filter((e) => e.value.referencedToken && e.value.referencedToken.id === r.id);
@@ -80,7 +84,7 @@
                     o = (180 * Math.atan2(n, t)) / Math.PI;
                 return ((o += 90) < 0 ? 360 + o : o) % 360;
             }),
-            Pulsar.registerPayload("behavior", { colorTokenPrefix: "color", borderTokenPrefix: "border", gradientTokenPrefix: "gradient", measureTokenPrefix: "measure", shadowTokenPrefix: "shadow", typographyTokenPrefix: "typography" }),
+            Pulsar.registerPayload("behavior", { colorTokenPrefix: "", borderTokenPrefix: "border", gradientTokenPrefix: "gradient", measureTokenPrefix: "measure", shadowTokenPrefix: "shadow", typographyTokenPrefix: "typography" }),
             Pulsar.registerFunction("shadowDescription", function (e) {
                 let r = "transparent";
                 return e.shadowLayers
